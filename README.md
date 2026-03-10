@@ -1,4 +1,4 @@
-# Pal
+# Pal (Personal Agent that Learns)
 
 Pal is a personal context-agent that learns how you work.
 
