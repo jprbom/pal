@@ -207,11 +207,11 @@ Pal applies this pattern to personal and work data. Email is queried by sender a
 
 The industry has gone through three generations of context-gathering:
 
-**Generation 1: Traditional RAG.** Embed your documents, store in a vector database, search at query time. RAG gave agents access to large knowledge bases, and the developer adoption was extraordinary. The limitation: everything gets flattened into one interface. A SQL table should be queried with SQL. A calendar should be queried with time ranges. A file system should be navigated by structure.
+**Generation 1: Semantic RAG (2023).** Embed your documents, store in a vector database, search at query time. RAG gave agents access to large knowledge bases, and the developer adoption was extraordinary. The limitation: everything gets flattened into one interface. A SQL table should be queried with SQL. A calendar should be queried with time ranges. A file system should be navigated by structure.
 
-**Generation 2: Agentic RAG.** Improvements in tool calling made agents reliable enough to decide when to search, run multiple retrievals, and act on results. The underlying architecture remains the bottleneck: agents still search a vector store, still flatten sources, still have no memory of what worked last time.
+**Generation 2: Agentic RAG (2024).** Improvements in tool calling made agents reliable enough to decide when to search, run multiple retrievals, and act on results. The underlying architecture remains the bottleneck: agents still search a vector store, still flatten sources, still have no memory of what worked last time.
 
-**Generation 3: Agentic Navigation.** The agent navigates a context graph of heterogeneous sources, each queried on its own terms. It builds a map of where things live, learns which retrieval strategies work, and improves with every interaction. Routing over search as the core retrieval primitive.
+**Generation 3: Agentic Navigation (2025).** The agent navigates a context graph of heterogeneous sources, each queried on its own terms. It builds a map of where things live, learns which retrieval strategies work, and improves with every interaction. Navigation over search as the core retrieval primitive.
 
 Pal is a Generation 3 context agent.
 
@@ -221,7 +221,7 @@ Every interaction follows the same execution loop:
 
 1. **Classify** intent from the user request.
 2. **Recall** source metadata and routing patterns from knowledge and learnings.
-3. **Retrieve** from the right sources, in the order informed by learnings.
+3. **Read** from the right sources, in the order informed by learnings.
 4. **Act** through tool calls.
 5. **Learn** so the next request is better.
 
@@ -290,6 +290,8 @@ Intent classification determines which sources to check and at what depth:
 | `file_read` / `file_write` | Files | Read or write context directory |
 | `email_read` / `email_draft` | Gmail + Files (voice) | Search/read or draft |
 | `calendar_read` / `calendar_write` | Calendar | View schedule or create events |
+| `organize` | SQL | Propose restructuring, execute on confirmation |
+| `meta` | Knowledge + Learnings | Questions about Pal itself |
 
 Requests can have multiple intents. "Draft a reply to Sarah's email about Project X" = `email_read` + `retrieve` + `email_draft`.
 
@@ -306,6 +308,20 @@ What do I know about Project X?
 Research web trends on AI productivity
 ```
 
+## Scheduled Tasks
+
+Pal runs five automated tasks on a cron schedule (all times `America/New_York`):
+
+| Task | Schedule | Description |
+|------|----------|-------------|
+| Context Refresh | Daily 8 AM | Re-indexes context files into the knowledge map |
+| Daily Briefing | Weekdays 8 AM | Morning briefing — calendar, emails, priorities |
+| Inbox Digest | Weekdays 12 PM | Midday email digest (requires Gmail) |
+| Learning Summary | Monday 10 AM | Weekly summary of the learning system |
+| Weekly Review | Friday 5 PM | End-of-week review draft |
+
+Each task can post its results to Slack (requires `SLACK_TOKEN`).
+
 ## Architecture
 
 ```
@@ -313,7 +329,7 @@ AgentOS (app/main.py)  [scheduler=True, tracing=True]
  ├── FastAPI / Uvicorn
  ├── Slack Interface (optional)
  └── Pal Agent (pal/agent.py)
-     ├─ Model: GPT-5.2
+     ├─ Model: GPT-5.4
      ├─ SQLTools         → PostgreSQL (pal_* tables)
      ├─ FileTools        → context/
      ├─ MCPTools         → Exa web search
@@ -348,7 +364,7 @@ AgentOS (app/main.py)  [scheduler=True, tracing=True]
 
 | Variable | Required | Default | Purpose |
 |----------|----------|---------|---------|
-| `OPENAI_API_KEY` | Yes | — | GPT-5.2 |
+| `OPENAI_API_KEY` | Yes | — | GPT-5.4 |
 | `EXA_API_KEY` | No | `""` | Exa web search auth (tool loads regardless) |
 | `GOOGLE_CLIENT_ID` | No | `""` | Gmail + Calendar OAuth (all 3 required) |
 | `GOOGLE_CLIENT_SECRET` | No | `""` | Gmail + Calendar OAuth (all 3 required) |
