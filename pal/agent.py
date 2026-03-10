@@ -322,7 +322,7 @@ if GOOGLE_INTEGRATION_ENABLED:
 pal = Agent(
     id="pal",
     name="Pal",
-    model=OpenAIResponses(id="gpt-5.2"),
+    model=OpenAIResponses(id="gpt-5.4"),
     db=agent_db,
     instructions=instructions,
     # Knowledge and Learning

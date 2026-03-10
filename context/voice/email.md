@@ -1,3 +1,7 @@
+---
+tags: [content-generation, email-draft, voice-guide]
+---
+
 # Email Voice
 
 ## How I Sound

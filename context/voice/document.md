@@ -1,3 +1,7 @@
+---
+tags: [content-generation, long-form-writing, voice-guide]
+---
+
 # Document Voice
 
 ## How I Sound

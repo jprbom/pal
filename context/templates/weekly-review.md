@@ -1,3 +1,7 @@
+---
+tags: [recurring, template, weekly-review]
+---
+
 <!-- Instructions for Pal:
   - Sources: conversations from pal_contents, action items from SQL tables,
     calendar events this week, email threads (if Gmail enabled).

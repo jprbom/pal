@@ -1,3 +1,7 @@
+---
+tags: [content-generation, social-post, voice-guide]
+---
+
 # X Post Voice
 
 ## How I Sound

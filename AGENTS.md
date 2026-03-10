@@ -17,7 +17,7 @@ AgentOS Entrypoint (app/main.py)
 
 Pal uses:
 - PostgreSQL database (pgvector) for persistence
-- OpenAI GPT-5.2 model
+- OpenAI gpt-5.4 model
 - 4 always-on toolkits: SQLTools, FileTools, MCPTools (Exa), custom `update_knowledge`
 - 3 conditional toolkits:
   - SlackTools (requires `SLACK_TOKEN`): proactive posting to Slack channels (e.g. `#pal-updates`)
@@ -123,7 +123,7 @@ if GOOGLE_INTEGRATION_ENABLED:
 pal = Agent(
     id="pal",
     name="Pal",
-    model=OpenAIResponses(id="gpt-5.2"),
+    model=OpenAIResponses(id="gpt-5.4"),
     db=agent_db,
     instructions=instructions,
     knowledge=pal_knowledge,
@@ -263,7 +263,7 @@ Agno supports 40+ model providers. Common options:
 ```python
 # OpenAI (default in this project)
 from agno.models.openai import OpenAIResponses
-model = OpenAIResponses(id="gpt-5.2")
+model = OpenAIResponses(id="gpt-5.4")
 
 # Anthropic Claude
 from agno.models.anthropic import Claude

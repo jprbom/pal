@@ -17,6 +17,8 @@ from datetime import UTC, datetime
 from os import getenv
 from pathlib import Path
 
+import yaml
+
 from db import create_knowledge
 from pal.paths import CONTEXT_DIR
 
@@ -28,50 +30,39 @@ PAL_CONTEXT_DIR = Path(getenv("PAL_CONTEXT_DIR", str(CONTEXT_DIR)))
 CONTEXT_EXTENSIONS = {".md", ".txt", ".yaml", ".yml", ".json"}
 
 
+def parse_frontmatter_tags(path: Path) -> list[str] | None:
+    """Extract tags from YAML frontmatter if present.
+
+    Expects files starting with '---' delimited YAML containing a 'tags' key.
+    Returns None if no frontmatter or no tags found.
+    """
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith("---"):
+        return None
+    # Split on the closing '---' delimiter
+    parts = text.split("---", 2)
+    if len(parts) < 3:
+        return None
+    try:
+        meta = yaml.safe_load(parts[1])
+    except yaml.YAMLError:
+        return None
+    if not isinstance(meta, dict):
+        return None
+    tags = meta.get("tags")
+    if isinstance(tags, list) and tags:
+        return sorted(str(t) for t in tags)
+    return None
+
+
 def infer_intent_tags(path: Path, rel_path: str) -> list[str]:
-    """Infer retrieval intent tags from file path and location.
+    """Get retrieval intent tags from file frontmatter.
 
     These are routing hints for the agent's recall step, not content indexes.
-    Keep them broad — the agent reads the actual file when it needs detail.
+    Tags are read from YAML frontmatter in the file. Falls back to
+    'general-context' if no frontmatter tags are found.
     """
-    name = path.name.lower()
-    # Path.parts handles both / and \ separators; .stem strips extensions
-    parts = {Path(p).stem.lower() for p in Path(rel_path).parts}
-    tags: set[str] = set()
-
-    # Location-based tags
-    if "voice" in parts:
-        tags.update(["voice-guide", "content-generation"])
-    if "preferences" in parts:
-        tags.add("user-preferences")
-    if "templates" in parts:
-        tags.add("template")
-    if "references" in parts:
-        tags.add("reference")
-    if "meetings" in parts:
-        tags.add("meeting-notes")
-    if "projects" in parts:
-        tags.add("project-context")
-
-    # Name-based tags
-    if name in {"x-post.md", "linkedin-post.md"}:
-        tags.add("social-post")
-    if "email" in name:
-        tags.add("email-draft")
-    if "brief" in name or "project" in name:
-        tags.add("project-context")
-    if "meeting" in name:
-        tags.add("meeting-notes")
-    if "about-me" in name:
-        tags.add("user-profile")
-    if "slack" in name:
-        tags.add("slack-message")
-    if "document" in name:
-        tags.add("long-form-writing")
-    if "weekly" in name:
-        tags.update(["weekly-review", "recurring"])
-
-    return sorted(tags) if tags else ["general-context"]
+    return parse_frontmatter_tags(path) or ["general-context"]
 
 
 def build_metadata_payload(path: Path, rel_path: str) -> str:
