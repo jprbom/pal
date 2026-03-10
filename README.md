@@ -39,7 +39,7 @@ Confirm Pal is running at [http://localhost:8000/docs](http://localhost:8000/doc
 
 ## Integrations
 
-Pal starts with SQL + Context Files + Exa. Gmail, Google Calendar, and Slack are pre-wired and activate when you add the relevant environment variables.
+Pal starts with SQL + Context Files + Exa. Gmail, Google Calendar, and Slack are pre-wired and activate when you add the relevant configuration.
 
 <details>
 <summary><strong>Gmail + Google Calendar</strong></summary>
