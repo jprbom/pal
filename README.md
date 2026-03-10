@@ -211,13 +211,13 @@ When you point Claude Code at a codebase, it navigates. It reads the directory s
 
 Pal applies this pattern to personal and work data. Email is queried by sender and date. A database is queried with SQL. A calendar is queried with time ranges. Files are navigated by structure. Each source is queried on its own terms, and a learning loop improves retrieval with every interaction.
 
-The industry has gone through three generations of context-gathering:
+The industry has gone through three generations of context engineering:
 
-**Generation 1: Semantic RAG (2023).** Embed your documents, store in a vector database, search at query time. RAG gave agents access to large knowledge bases, and the developer adoption was extraordinary. The limitation: everything gets flattened into one interface. A SQL table should be queried with SQL. A calendar should be queried with time ranges. A file system should be navigated by structure.
+**Generation 1: Semantic RAG (2023).** Embed your documents, store in a vector database, search at query time. RAG gave LLMs access to large knowledge bases, and the developer adoption was extraordinary. The limitation: everything gets flattened into one interface. A SQL table should be queried with SQL. A calendar should be queried with time ranges. A file system should be navigated by structure.
 
 **Generation 2: Agentic RAG (2024).** Improvements in tool calling made agents reliable enough to decide when to search, run multiple retrievals, and act on results. The underlying architecture remains the bottleneck: agents still search a vector store, still flatten sources, still have no memory of what worked last time.
 
-**Generation 3: Agentic Navigation (2025).** The agent navigates a context graph of heterogeneous sources, each queried on its own terms. It builds a map of where things live, learns which retrieval strategies work, and improves with every interaction. Navigation over search as the core retrieval primitive.
+**Generation 3: Agentic Navigation (2026).** The agent navigates a context graph of heterogeneous sources, each queried on its own terms. It builds a map of where things live, learns which retrieval strategies work, and improves with every interaction. Navigation over search as the core retrieval primitive.
 
 Pal is a Generation 3 context agent.
 
@@ -233,23 +233,25 @@ Every interaction follows the same execution loop:
 
 ### Context Systems
 
-Pal maintains four systems that make up its context graph:
+Five systems make up Pal's context graph:
 
-1. **Knowledge** (`pal_knowledge`): the map. A metadata index of where things live: file manifests, table schemas, source capabilities, cross-source discoveries. This is a routing layer that tells Pal where to look.
+1. **Knowledge** (`pal_knowledge`): A metadata index of where things live: file manifests, table schemas, source capabilities, cross-source discoveries. This is a routing layer that tells Pal where to look. In multi-user setups, knowledge is shared across users.
 
-2. **Learnings** (`pal_learnings`): the compass. Operational memory of what works: which retrieval strategies succeeded, recurring user patterns, and explicit user corrections. Corrections always take priority.
+2. **Learnings** (`pal_learnings`): Operational memory of what works: which retrieval strategies succeeded, recurring user patterns, and explicit user corrections. Corrections always take priority. Learnings are namespaced per user.
 
-3. **Files** (`context/`): the territory. User-authored context files read on demand. Voice guidelines, preferences, templates, and references that shape Pal's behavior. Pal also writes back here: meeting notes, exports, generated documents.
+3. **Files** (`context/`): User-authored context files read on demand. Voice guidelines, preferences, templates, and references that shape Pal's behavior. Pal also writes back here: meeting notes, exports, generated documents.
 
-4. **SQL** (`pal_*` tables): structured data. Notes, people, projects, and decisions. Pal owns the schema and creates tables on demand. All queries are scoped to the active user, a hard security boundary.
+4. **SQL** (`pal_*` tables): Structured data. Notes, people, projects, and decisions. Pal owns the schema and creates tables on demand. All queries are scoped to the active user, a soft boundary managed by Pal.
+
+5. **Tools** (Gmail, Calendar, Slack, Exa): External systems queried through native interfaces. Email by sender and date. Calendar by time range. Slack by channel and thread. Web by search. Each source is queried on its own terms.
 
 ### Context Directory
 
 The context directory (`PAL_CONTEXT_DIR`, default `./context`) is Pal's primary document store. Files are searched and read on demand, so edits are immediately reflected without reindexing.
 
-**User → Pal**: Place voice guidelines, preferences, templates, and references here. Pal reads them to shape its behavior.
+**User to Pal**: Place voice guidelines, preferences, templates, and references here. Pal reads them to shape its behavior.
 
-**Pal → User**: Pal writes summaries, exports, and generated documents back here.
+**Pal to User**: Pal writes summaries, exports, and generated documents back here.
 
 ```
 context/
@@ -273,7 +275,7 @@ File deletion is disabled at the code level.
 
 ### Context Loading
 
-Preload file metadata into the knowledge map for retrieval routing from inside the container:
+Load file metadata to bootstrap the knowledge base:
 
 ```sh
 docker compose exec pal-api python context/load_context.py
@@ -316,7 +318,7 @@ Research web trends on AI productivity
 
 ## Scheduled Tasks
 
-Pal runs five automated tasks on a cron schedule (all times `America/New_York`):
+Pal comes with five automated tasks on a cron schedule (all times `America/New_York`):
 
 | Task | Schedule | Description |
 |------|----------|-------------|
