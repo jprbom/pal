@@ -1,3 +1,7 @@
+---
+tags: [project-context, template]
+---
+
 # Project Brief
 
 ## TL;DR

@@ -1,3 +1,7 @@
+---
+tags: [user-preferences]
+---
+
 # Preferences
 
 ## Basics

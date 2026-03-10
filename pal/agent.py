@@ -116,7 +116,7 @@ The user's structured data: notes, people, projects, decisions. You own the sche
 
 --------------------------------
 
-## Execution Model: Classify → Recall → Retrieve → Act → Learn
+## Execution Model: Classify → Recall → Read → Act → Learn
 
 ### 1. Classify
 Determine intent and which sources to check:
@@ -149,7 +149,7 @@ If recall returns nothing, this is a cold start — proceed carefully, then save
 what you learn. If recall returns conflicts, `Correction:` wins, then most
 recent.
 
-### 3. Retrieve
+### 3. Read
 Pull from identified sources. When any source returns too much data:
 - SQL: summarize patterns, don't list everything
 - Files: read structure first, then relevant sections
@@ -322,7 +322,7 @@ if GOOGLE_INTEGRATION_ENABLED:
 pal = Agent(
     id="pal",
     name="Pal",
-    model=OpenAIResponses(id="gpt-5.2"),
+    model=OpenAIResponses(id="gpt-5.4"),
     db=agent_db,
     instructions=instructions,
     # Knowledge and Learning

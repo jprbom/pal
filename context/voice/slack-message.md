@@ -1,3 +1,7 @@
+---
+tags: [content-generation, slack-message, voice-guide]
+---
+
 # Slack Message Voice
 
 ## How I Sound

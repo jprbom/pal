@@ -1,3 +1,7 @@
+---
+tags: [meeting-notes, template]
+---
+
 # Meeting Notes
 
 - Title:

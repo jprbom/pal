@@ -1,3 +1,7 @@
+---
+tags: [user-profile]
+---
+
 # About Me
 
 Independent software engineer, working solo. I build AI-powered tools and agents, and I care about developer productivity and workflow automation.
