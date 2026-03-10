@@ -132,11 +132,13 @@ Slack gives Pal two capabilities: receiving messages from users in Slack threads
    - `im:write` — send DMs
    - `channels:read` — list public channels
 
+> Adding scopes for slack bots are excruciatingly painful.
+
 #### 3. Install to workspace
 
 1. Click **Install to Workspace** at the top of the OAuth & Permissions page
 2. Authorize the requested permissions
-3. Copy the **Bot User OAuth Token** (`xoxb-...`) → `SLACK_TOKEN`
+3. Copy the **Bot User OAuth Token** (`xoxb-...`) → `SLACK_TOKEN` in the .env file.
 
 #### 4. Get the signing secret
 
@@ -145,19 +147,22 @@ Slack gives Pal two capabilities: receiving messages from users in Slack threads
 
 #### 5. Expose your local server
 
-Slack needs a public URL to send events to Pal. For local development, use ngrok:
+Slack needs a public URL to send events to Pal. In production, you'll use your deployed URL but for local development, use ngrok:
+
+1. Install and configure [ngrok](https://ngrok.com/download/mac-os)
+
+2. Start an endpoint at localhost:8000, where you local AgentOS is running via docker.
+
 ```sh
 ngrok http 8000
 ```
 
 Copy the `https://` URL that ngrok provides (e.g. `https://abc123.ngrok-free.app`).
 
-For production, use your deployed URL instead.
-
 #### 6. Configure event subscriptions
 
 1. Go to **Event Subscriptions** in the sidebar and toggle **Enable Events**
-2. Set the **Request URL** to: `https://your-ngrok-url.ngrok-free.app/slack/events`
+2. Set the **Request URL** to: `your-ngrok-url` + `/slack/events`. So something like: `https://your-ngrok-url.ngrok-free.dev/slack/events`
 3. Wait for Slack to verify the endpoint (Pal must be running)
 4. Under **Subscribe to bot events**, add:
    - `app_mention`
@@ -173,6 +178,7 @@ For production, use your deployed URL instead.
 3. Check **Allow users to send Slash commands and messages from the messages tab**
 
 #### 8. Add to your `.env` and restart
+
 ```env
 SLACK_TOKEN="xoxb-your-bot-token"
 SLACK_SIGNING_SECRET="your-signing-secret"
