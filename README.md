@@ -1,10 +1,22 @@
 # Pal
 
-A personal context-agent that learns how you work.
+Pal is a personal context-agent that learns how you work.
 
-- It works through a set of context files that define common tasks, brand voice, work preferences, templates. These are read on demand to shape behavior.
-- It maintains a SQL database of notes, people, projects, and decisions it picks up from your conversations. This helps Pal build a map of your environment over time.
-- It connects with tools like Gmail and Google Calendar to gather context and complete tasks as needed.
+It navigates a set of heterogeneous sources to gather context:
+
+1. A local file system with preferences, voice guidelines, and templates.
+2. Tools like Gmail, Google Calendar, and Slack.
+3. A PostgreSQL database for structured data (notes, people, projects, decisions).
+
+Each source keeps its native query interface. Databases get queried with SQL. Email gets queried by sender and date. Files get navigated by directory structure. A learning loop ties it together: every interaction improves the next one.
+
+What makes Pal, a context agent, different is the execution loop, designed for routing and navigation:
+
+1. **Classify** intent from the input message.
+2. **Recall** metadata and routing patterns from knowledge and learnings.
+3. **Read** from the right sources, in the order informed by learnings.
+4. **Act** through tool calls.
+5. **Learn** so the next request is better.
 
 Built with [Agno](https://docs.agno.com).
 
