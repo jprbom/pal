@@ -14,7 +14,9 @@ Chat with Pal via Slack, the terminal, or the [AgentOS](https://os.agno.com) web
 
 Each source keeps its native query interface. Databases get queried with SQL. Email gets queried by sender and date. Files get navigated by directory structure. The wiki gets navigated by its index. A learning loop ties it together: every interaction improves the next one.
 
-Built with [Agno](https://docs.agno.com?utm_source=github&utm_medium=example-repo&utm_campaign=agent-example&utm_content=pal&utm_term=docs).
+Here's a no-speed up video of Pal ingesting a page from the [AgentOS docs](https://docs.agno.com/agent-os/introduction), compiling it into a wiki by breaking it down into numerous concepts, and then answering questions about it in a neutral, no-frills manner.
+
+https://github.com/user-attachments/assets/03a1c5e1-c344-4a2b-b839-dee68a7b0f5e
 
 ## Quick Start
 
