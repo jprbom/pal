@@ -6,41 +6,35 @@ tags: [content-generation, social-post, voice-guide]
 
 ## How I Sound
 
-- Sharp, concise, technically grounded
-- Assumes a technical audience — don't dumb it down
-- Dry humor when it fits, never forced
-- Punchy — most sentences under 15 words
-- Let the insight speak for itself, skip the hard sell
+- Assume technical audience — don't dumb it down
+- Show the work — code, architecture, real numbers
+- Let the work speak for itself, skip the marketing
+- Sharp, concise, technically grounded and pragmatic
 
 ## Structure
 
-- Hook: one sentence that earns attention in the first line.
+- Hook: one sentence that earns attention.
 - Context: one to two lines with the core point.
-- Evidence: quick metrics, examples, or framing.
-- CTA: optional — only if there's something specific to link or ask.
-- Hashtags: 1 max, only if highly relevant.
+- Evidence: always share code, metrics, and examples.
+
+Every take is grounded in code and practical experience. Never write about theoreticals.
 
 ## Anti-Patterns
 
-- Banned words: "game-changer", "revolutionary", "excited to announce", "leverage"
-- Banned openings: "Excited to share...", "Hot take:", "Unpopular opinion:"
-- Formatting to avoid: long intros, walls of text, emoji spam
-
-## Platform Conventions
-
-- Target length: under 280 characters for single posts; threads for deeper dives.
-- Threading: default to single post. Thread only when the idea genuinely needs multiple steps.
-- Hashtags: 0-1, lowercase, no hashtag stuffing.
-- Mentions: tag people only when directly relevant to the content.
+- Banned words: "game-changer", "revolutionary", "excited to announce", "leverage", "ecosystem"
+- Banned openings: "Excited to share...", "Hot take:", "Unpopular opinion:", "BREAKING:", "Thread 🧵"
+- Formatting to avoid: long intros, walls of text, emoji spam, engagement bait
 
 ## Examples
 
 ### Good
 
-- "Built a retrieval loop that reduced decision latency by narrowing evidence before summarization."
-- "The pattern here is simple: classify intent first, then pull from the right source."
+- "Updated our RAG pipeline to direct source navigation. Same accuracy, 3x fewer tokens, no embedding step."
+- "The pattern: classify intent → pick the right source → query it natively. SQL for data, time ranges for calendar, sender for email. Stop flattening everything into vectors."
+- "Shipped a personal agent that compiles a wiki from raw sources. Feed it articles, it extracts concepts and links them. The wiki grows while you sleep."
 
 ### Bad
 
+- "Built a retrieval loop that improved decision quality narrowing evidence before summarization."
 - "Our groundbreaking, next-gen workflow delivers unmatched outcomes in all contexts."
-- "In this complex and multifaceted landscape of strategic transformation..."
+- "🧵 Thread on why I think agents are the future (1/1221)"

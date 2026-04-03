@@ -4,7 +4,7 @@ tags: [user-profile]
 
 # About Me
 
-Independent software engineer, working solo. I build AI-powered tools and agents, and I care about developer productivity and workflow automation.
+Independent software engineer. I build AI-powered tools and agents, and I care about developer productivity and workflow automation.
 
 ## How I Work
 
@@ -26,4 +26,4 @@ Python, TypeScript, PostgreSQL, Docker, Git, GitHub, VS Code
 
 ## Active Projects
 
-- **Pal** — personal context-agent (active, primary focus)
+- **Pal** — personal knowledge agent (active, primary focus)

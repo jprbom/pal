@@ -28,7 +28,7 @@ console = Console()
 
 
 def test_voice_x_post_tags() -> None:
-    path = Path("voice/x-post.md")
+    path = CONTEXT_DIR / "voice/x-post.md"
     tags = infer_intent_tags(path, "voice/x-post.md")
     assert "voice-guide" in tags, f"Expected 'voice-guide' in {tags}"
     assert "content-generation" in tags, f"Expected 'content-generation' in {tags}"
@@ -36,61 +36,61 @@ def test_voice_x_post_tags() -> None:
 
 
 def test_voice_email_tags() -> None:
-    path = Path("voice/email.md")
+    path = CONTEXT_DIR / "voice/email.md"
     tags = infer_intent_tags(path, "voice/email.md")
     assert "voice-guide" in tags, f"Expected 'voice-guide' in {tags}"
     assert "email-draft" in tags, f"Expected 'email-draft' in {tags}"
 
 
 def test_preferences_tags() -> None:
-    path = Path("preferences.md")
+    path = CONTEXT_DIR / "preferences.md"
     tags = infer_intent_tags(path, "preferences.md")
     assert "user-preferences" in tags, f"Expected 'user-preferences' in {tags}"
 
 
 def test_template_weekly_review_tags() -> None:
-    path = Path("templates/weekly-review.md")
+    path = CONTEXT_DIR / "templates/weekly-review.md"
     tags = infer_intent_tags(path, "templates/weekly-review.md")
     assert "template" in tags, f"Expected 'template' in {tags}"
     assert "weekly-review" in tags, f"Expected 'weekly-review' in {tags}"
     assert "recurring" in tags, f"Expected 'recurring' in {tags}"
 
 
-def test_meeting_notes_location_tag() -> None:
-    path = Path("meetings/2026-03-03 - meeting - standup.md")
-    tags = infer_intent_tags(path, "meetings/2026-03-03 - meeting - standup.md")
+def test_meeting_notes_template_tags() -> None:
+    path = CONTEXT_DIR / "templates/meeting-notes.md"
+    tags = infer_intent_tags(path, "templates/meeting-notes.md")
     assert "meeting-notes" in tags, f"Expected 'meeting-notes' in {tags}"
 
 
-def test_project_location_tag() -> None:
-    path = Path("projects/project - atlas.md")
-    tags = infer_intent_tags(path, "projects/project - atlas.md")
+def test_project_template_tags() -> None:
+    path = CONTEXT_DIR / "templates/project-brief.md"
+    tags = infer_intent_tags(path, "templates/project-brief.md")
     assert "project-context" in tags, f"Expected 'project-context' in {tags}"
 
 
 def test_about_me_tags() -> None:
-    path = Path("about-me.md")
+    path = CONTEXT_DIR / "about-me.md"
     tags = infer_intent_tags(path, "about-me.md")
     assert "user-profile" in tags, f"Expected 'user-profile' in {tags}"
 
 
 def test_slack_message_tags() -> None:
-    path = Path("voice/slack-message.md")
+    path = CONTEXT_DIR / "voice/slack-message.md"
     tags = infer_intent_tags(path, "voice/slack-message.md")
     assert "slack-message" in tags, f"Expected 'slack-message' in {tags}"
     assert "voice-guide" in tags, f"Expected 'voice-guide' in {tags}"
 
 
 def test_document_voice_tags() -> None:
-    path = Path("voice/document.md")
+    path = CONTEXT_DIR / "voice/document.md"
     tags = infer_intent_tags(path, "voice/document.md")
     assert "long-form-writing" in tags, f"Expected 'long-form-writing' in {tags}"
     assert "voice-guide" in tags, f"Expected 'voice-guide' in {tags}"
 
 
 def test_fallback_general_context() -> None:
-    path = Path("random-notes.md")
-    tags = infer_intent_tags(path, "random-notes.md")
+    path = Path("nonexistent-file-for-fallback-test.md")
+    tags = infer_intent_tags(path, "nonexistent-file-for-fallback-test.md")
     assert tags == ["general-context"], f"Expected ['general-context'], got {tags}"
 
 
@@ -140,8 +140,8 @@ ALL_TESTS = [
     test_voice_email_tags,
     test_preferences_tags,
     test_template_weekly_review_tags,
-    test_meeting_notes_location_tag,
-    test_project_location_tag,
+    test_meeting_notes_template_tags,
+    test_project_template_tags,
     test_about_me_tags,
     test_slack_message_tags,
     test_document_voice_tags,

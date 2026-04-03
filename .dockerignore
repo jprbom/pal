@@ -17,6 +17,7 @@ docs
 
 # Ignore .env files
 .env
+.env.production
 .envrc
 
 # ignore virtualenvs
@@ -25,3 +26,5 @@ venv*
 aienv*
 
 .ipynb_checkpoints
+tmp/
+.claude/

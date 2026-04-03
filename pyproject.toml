@@ -1,6 +1,7 @@
 [project]
 name = "pal"
 version = "1.0.0"
+description = "Personal knowledge agent that learns how you work."
 requires-python = ">=3.12,<4"
 readme = "README.md"
 license-files = ["LICENSE"]
@@ -8,16 +9,16 @@ authors = [{ name = "Agno", email = "hello@agno.com" }]
 
 dependencies = [
   "agno[os]",
-  "fastapi[standard]",
+  "aiohttp",
+  "google-api-python-client",
+  "google-auth-oauthlib",
+  "google-auth",
+  "mcp",
   "openai",
+  "parallel-web",
   "pgvector",
   "psycopg[binary]",
-  "mcp",
-  "google-auth",
-  "google-auth-oauthlib",
-  "google-api-python-client",
   "slack-sdk",
-  "aiohttp",
 ]
 
 [project.optional-dependencies]
@@ -28,7 +29,7 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-include = ["pal*", "db*", "app*"]
+include = ["pal*", "db*", "app*", "evals*"]
 
 [tool.ruff]
 line-length = 120
@@ -45,7 +46,7 @@ plugins = ["pydantic.mypy"]
 exclude = [".venv*"]
 
 [[tool.mypy.overrides]]
-module = ["pgvector.*", "setuptools.*", "agno.*", "httpx.*", "mcp.*", "google.*", "googleapiclient.*", "slack_sdk.*"]
+module = ["pgvector.*", "agno.*", "httpx.*", "mcp.*", "google.*", "googleapiclient.*", "slack_sdk.*", "parallel.*"]
 ignore_missing_imports = true
 
 [tool.uv.pip]

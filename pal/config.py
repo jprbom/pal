@@ -7,6 +7,7 @@ from pal.paths import CONTEXT_DIR
 # Environment
 # ---------------------------------------------------------------------------
 EXA_API_KEY = getenv("EXA_API_KEY", "")
+PARALLEL_API_KEY = getenv("PARALLEL_API_KEY", "")
 
 SLACK_TOKEN = getenv("SLACK_TOKEN", "")
 SLACK_SIGNING_SECRET = getenv("SLACK_SIGNING_SECRET", "")
@@ -23,3 +24,8 @@ EXA_MCP_URL = (
     if EXA_API_KEY
     else "https://mcp.exa.ai/mcp?tools=web_search_exa"
 )
+
+# Git sync — push context/ to GitHub, pull on startup
+GITHUB_ACCESS_TOKEN = getenv("GITHUB_ACCESS_TOKEN", "")
+PAL_REPO_URL = getenv("PAL_REPO_URL", "")
+GIT_SYNC_ENABLED = bool(GITHUB_ACCESS_TOKEN and PAL_REPO_URL)

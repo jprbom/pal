@@ -1,6 +1,6 @@
 chat:
   quick_prompts:
     pal:
-      - "Save a note: Met with Sarah Chen from Acme Corp"
-      - "What do I know about Sarah?"
-      - "Draft an X post about this product launch in my voice"
+      - "What can you do?"
+      - "Ingest this article: https://docs.agno.com/agent-os/introduction"
+      - "What does my knowledge base say so far?"

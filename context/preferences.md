@@ -7,7 +7,7 @@ tags: [user-preferences]
 ## Basics
 
 - Timezone: US/Eastern (EST/EDT)
-- Working hours: Mon–Fri, 9:00–20:00
+- Working hours: Mon–Fri, 8:00–20:00
 - Preferred units: imperial
 - Preferred spelling: US
 
@@ -39,11 +39,14 @@ Pal runs these automatically — no prompting required:
 
 | Task | Schedule | What it does |
 |------|----------|-------------|
+| Context refresh | 8 AM daily | Re-index context files into knowledge |
 | Daily briefing | 8 AM weekdays | Calendar, emails, priorities |
-| Inbox digest | 12 PM weekdays | Morning email summary, flag responses |
-| Weekly review | 5 PM Friday | Fill weekly-review template, save to meetings/ |
-| Context refresh | 8 AM daily | Re-index context files via update_knowledge |
+| Wiki compile | 9 AM daily | Compile new raw sources into wiki articles |
+| Inbox digest | 12 PM weekdays | Midday email digest, flag responses |
 | Learning summary | 10 AM Monday | Summarize patterns from pal_learnings |
+| Weekly review | 5 PM Friday | Fill weekly-review template, save to meetings/ |
+| Wiki lint | 8 AM Sunday | Wiki health check — find gaps and issues |
+| Sync pull | Every 30 min | Pull remote context/ changes from GitHub |
 
 If a scheduled task produces a file, follow the file conventions above.
 

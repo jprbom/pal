@@ -2,9 +2,10 @@
 
 ############################################################################
 #
-#    Agno Railway Deployment
+#    Agno Railway Setup (first-time provisioning)
 #
 #    Usage: ./scripts/railway_up.sh
+#    Redeploy: ./scripts/railway_redeploy.sh
 #
 #    Prerequisites:
 #      - Railway CLI installed
@@ -33,12 +34,12 @@ cat << 'BANNER'
 BANNER
 echo -e "${NC}"
 
-# Load .env if it exists
-if [[ -f .env ]]; then
+# Load .env.production if it exists
+if [[ -f .env.production ]]; then
     set -a
-    source .env
+    source .env.production
     set +a
-    echo -e "${DIM}Loaded .env${NC}"
+    echo -e "${DIM}Loaded .env.production${NC}"
 fi
 
 # Preflight
@@ -48,7 +49,7 @@ if ! command -v railway &> /dev/null; then
 fi
 
 if [[ -z "$OPENAI_API_KEY" ]]; then
-    echo "OPENAI_API_KEY not set."
+    echo "OPENAI_API_KEY not set. Add to .env.production or export it."
     exit 1
 fi
 
@@ -59,26 +60,41 @@ railway init -n "pal"
 echo ""
 echo -e "${BOLD}Deploying PgVector database...${NC}"
 echo ""
-railway deploy -t 3jJFCA
+railway add -s pgvector -i agnohq/pgvector:18 \
+    -v "POSTGRES_USER=${DB_USER:-ai}" \
+    -v "POSTGRES_PASSWORD=${DB_PASS:-ai}" \
+    -v "POSTGRES_DB=${DB_DATABASE:-ai}" \
+    -v "PGDATA=/var/lib/postgresql/data"
 
 echo ""
-echo -e "${DIM}Waiting 10s for database...${NC}"
-sleep 10
+echo ""
+echo -e "${BOLD}Adding database volume...${NC}"
+railway service link pgvector
+railway volume add -m /var/lib/postgresql/data 2>/dev/null || echo -e "${DIM}Volume already exists or skipped${NC}"
+
+echo ""
+echo -e "${DIM}Waiting 15s for database...${NC}"
+sleep 15
 
 echo ""
 echo -e "${BOLD}Creating application service...${NC}"
 echo ""
-railway add --service pal \
-    --variables 'DB_USER=${{pgvector.PGUSER}}' \
-    --variables 'DB_PASS=${{pgvector.PGPASSWORD}}' \
-    --variables 'DB_HOST=${{pgvector.PGHOST}}' \
-    --variables 'DB_PORT=${{pgvector.PGPORT}}' \
-    --variables 'DB_DATABASE=${{pgvector.PGDATABASE}}' \
-    --variables "DB_DRIVER=postgresql+psycopg" \
-    --variables "WAIT_FOR_DB=True" \
-    --variables "OPENAI_API_KEY=${OPENAI_API_KEY}" \
-    --variables "EXA_API_KEY=${EXA_API_KEY}" \
-    --variables "PORT=8000"
+railway add -s pal \
+    -v "DB_USER=${DB_USER:-ai}" \
+    -v "DB_PASS=${DB_PASS:-ai}" \
+    -v "DB_HOST=pgvector.railway.internal" \
+    -v "DB_PORT=${DB_PORT:-5432}" \
+    -v "DB_DATABASE=${DB_DATABASE:-ai}" \
+    -v "DB_DRIVER=postgresql+psycopg" \
+    -v "WAIT_FOR_DB=True" \
+    -v "OPENAI_API_KEY=${OPENAI_API_KEY}" \
+    -v "EXA_API_KEY=${EXA_API_KEY:-}" \
+    -v "SLACK_TOKEN=${SLACK_TOKEN:-}" \
+    -v "SLACK_SIGNING_SECRET=${SLACK_SIGNING_SECRET:-}" \
+    -v "GITHUB_ACCESS_TOKEN=${GITHUB_ACCESS_TOKEN:-}" \
+    -v "PAL_REPO_URL=${PAL_REPO_URL:-}" \
+    -v "JWT_VERIFICATION_KEY=${JWT_VERIFICATION_KEY:-}" \
+    -v "PORT=8000"
 
 echo ""
 echo -e "${BOLD}Deploying application...${NC}"

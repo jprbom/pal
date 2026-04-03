@@ -31,9 +31,12 @@ def parse_frontmatter_tags(path: Path) -> list[str] | None:
     """Extract tags from YAML frontmatter if present.
 
     Expects files starting with '---' delimited YAML containing a 'tags' key.
-    Returns None if no frontmatter or no tags found.
+    Returns None if no frontmatter, no tags, or file does not exist.
     """
-    text = path.read_text(encoding="utf-8")
+    try:
+        text = path.read_text(encoding="utf-8")
+    except (FileNotFoundError, OSError):
+        return None
     if not text.startswith("---"):
         return None
     # Split on the closing '---' delimiter

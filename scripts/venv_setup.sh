@@ -58,7 +58,7 @@ uv venv ${VENV_DIR} --python 3.12 --quiet
 echo ""
 echo -e "    ${DIM}Installing requirements...${NC}"
 echo -e "    ${DIM}> uv pip install -r requirements.txt${NC}"
-VIRTUAL_ENV=${VENV_DIR} uv pip install -r ${REPO_ROOT}/requirements.txt --quiet
+VIRTUAL_ENV=${VENV_DIR} uv pip install -r ${REPO_ROOT}/requirements.txt --no-cache --quiet
 
 echo ""
 echo -e "    ${DIM}Installing project in editable mode with dev dependencies...${NC}"

@@ -1,3 +1,6 @@
+# Docker Compose reads from .env by default (local development).
+# Production keys go in .env.production (used by Railway via railway_env.sh).
+
 services:
   pal-db:
     image: agnohq/pgvector:18
@@ -10,7 +13,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql
     ports:
-      - "5432:5432"
+      - "${DB_PORT:-5432}:5432"
     networks:
       - pal
 
@@ -40,10 +43,14 @@ services:
       - DB_PASS=${DB_PASS:-ai}
       - DB_DATABASE=${DB_DATABASE:-ai}
       - WAIT_FOR_DB=True
-      - PRINT_ENV_ON_LOAD=True
+      - PRINT_ENV_ON_LOAD=False
       # API keys
       - OPENAI_API_KEY=${OPENAI_API_KEY}
       - EXA_API_KEY=${EXA_API_KEY:-}
+      - PARALLEL_API_KEY=${PARALLEL_API_KEY:-}
+      # Git sync
+      - GITHUB_ACCESS_TOKEN=${GITHUB_ACCESS_TOKEN:-}
+      - PAL_REPO_URL=${PAL_REPO_URL:-}
       # Google OAuth
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID:-}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET:-}
