@@ -14,17 +14,14 @@ Usage:
 
 from argparse import ArgumentParser
 from datetime import UTC, datetime
-from os import getenv
 from pathlib import Path
 
 import yaml
 
 from db import create_knowledge
-from pal.paths import CONTEXT_DIR
+from pal.config import PAL_CONTEXT_DIR
 
 pal_knowledge = create_knowledge("Pal Knowledge", "pal_knowledge")
-
-PAL_CONTEXT_DIR = Path(getenv("PAL_CONTEXT_DIR", str(CONTEXT_DIR)))
 
 # File extensions treated as indexable context.
 CONTEXT_EXTENSIONS = {".md", ".txt", ".yaml", ".yml", ".json"}

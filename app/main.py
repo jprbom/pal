@@ -16,6 +16,7 @@ from agno.os import AgentOS
 from app.router import create_router
 from db import get_postgres_db
 from pal.agent import pal
+from pal.config import SLACK_SIGNING_SECRET, SLACK_TOKEN
 
 # ---------------------------------------------------------------------------
 # Environment
@@ -26,9 +27,6 @@ scheduler_base_url = "http://127.0.0.1:8000" if runtime_env == "dev" else getenv
 # ---------------------------------------------------------------------------
 # Interfaces
 # ---------------------------------------------------------------------------
-SLACK_TOKEN = getenv("SLACK_TOKEN", "")
-SLACK_SIGNING_SECRET = getenv("SLACK_SIGNING_SECRET", "")
-
 interfaces: list = []
 if SLACK_TOKEN and SLACK_SIGNING_SECRET:
     from agno.os.interfaces.slack import Slack
