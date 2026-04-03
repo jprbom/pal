@@ -13,6 +13,7 @@ from pathlib import Path
 
 from agno.os import AgentOS
 
+from app.router import create_router
 from db import get_postgres_db
 from pal.agent import pal
 
@@ -56,6 +57,7 @@ agent_os = AgentOS(
 )
 
 app = agent_os.get_app()
+app.include_router(create_router(agent_os.settings))
 
 if __name__ == "__main__":
     agent_os.serve(
